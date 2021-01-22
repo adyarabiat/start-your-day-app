@@ -8,6 +8,7 @@ const TodoForm = ({ addTodo }) => {
     id: 1,
     completed: false,
     text: "",
+    edit: false,
   });
 
   const handleInputChange = (e) => {

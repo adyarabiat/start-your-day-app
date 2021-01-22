@@ -30,6 +30,34 @@ const TodoContainer = () => {
     );
   };
 
+  const toggleEdit = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            edit: !todo.edit,
+          };
+        }
+        return todo;
+      })
+    );
+  };
+
+  const changeEditedTask = (e, id) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            task: e,
+          };
+        }
+        return todo;
+      })
+    );
+  };
+
   console.log(todos);
   return (
     <div>
@@ -40,6 +68,8 @@ const TodoContainer = () => {
         removeTodo={removeTodo}
         todos={todos}
         toggleCompleted={toggleCompleted}
+        toggleEdit={toggleEdit}
+        changeEditedTask={changeEditedTask}
       />
     </div>
   );
