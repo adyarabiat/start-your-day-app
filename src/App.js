@@ -1,24 +1,51 @@
+import { useState, useEffect } from "react";
+import { auth } from "./firebase/firebase.utils";
+
 import "./App.css";
 import TodoContainer from "./components/Todo/TodoContainer/TodoContainer";
 import Container from "@material-ui/core/Container";
 import SignInPage from "./components/Login-page/Sign-In";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
+import Header from "./components/Header/Header";
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Container className="App">
-        <Switch>
-          <Route path="/main">
-            <TodoContainer className="Todo" />
-          </Route>
-          <Route path="/">
-            <SignInPage />
-          </Route>
-        </Switch>
-      </Container>
-    </BrowserRouter>
-  );
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+
+      console.log(currentUser);
+    });
+  }, [currentUser]);
+
+  if (currentUser) {
+    return (
+      <div>
+        <Redirect to="main" />
+        <Header currentUser={currentUser} />
+        <Container className="App">
+          <Route
+            exact
+            path="/main"
+            render={(props) => (
+              <TodoContainer {...props} currentUser={currentUser} />
+            )}
+          />
+        </Container>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Redirect to="/" />
+        <Header currentUser={currentUser} />
+        <Container className="App">
+          <Route exact path="/" component={SignInPage} />
+        </Container>
+      </div>
+    );
+  }
 };
 
 export default App;

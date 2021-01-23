@@ -22,7 +22,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Start you day
       </Link>{" "}
       {new Date().getFullYear()}
     </Typography>
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+const SignIn = () => {
   const classes = useStyles();
 
   return (
@@ -62,7 +62,11 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={(e) => e.preventDefault()}
+        >
           <TextField
             variant="outlined"
             margin="normal"
@@ -118,4 +122,6 @@ export default function SignIn() {
       </Box>
     </Container>
   );
-}
+};
+
+export default SignIn;
