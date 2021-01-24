@@ -4,7 +4,8 @@ import { DateTime } from "../Time/Time";
 import TodoForm from "../TodoForm/TodoForm";
 import Todo from "../Todo/Todo";
 
-const TodoContainer = () => {
+const TodoContainer = (props) => {
+  console.log(props);
   const [todos, setTodos] = useState([]);
 
   const addTodo = (todo) => {
@@ -62,7 +63,7 @@ const TodoContainer = () => {
   return (
     <div>
       <DateTime />
-      <h4>Hey "User name" what do you want to do today</h4>
+      <h4>Hey {props.currentUser.displayName} what do you want to do today</h4>
       <TodoForm addTodo={addTodo} />
       <Todo
         removeTodo={removeTodo}

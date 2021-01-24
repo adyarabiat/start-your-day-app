@@ -11,13 +11,18 @@ import Header from "./components/Header/Header";
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+  //When I initialise auth.onAuthStateChanged() I create a listener. If I don't unsubscribe then this listener will continue to listen even after I stop using it. This will waste memory.
 
-      console.log(currentUser);
+  // To prevent this from happening, I unsubscribe from listener when I unmount my app.
+  // I used here useEffect instead of componentWillUnMount so I use return to clean up and unMount it.
+  useEffect(() => {
+    const unSupscripeFromAuth = auth.onAuthStateChanged((user) => {
+      user ? setCurrentUser(user) : setCurrentUser(null);
     });
-  }, [currentUser]);
+    return () => {
+      unSupscripeFromAuth();
+    };
+  });
 
   if (currentUser) {
     return (
