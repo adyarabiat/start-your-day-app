@@ -5,7 +5,6 @@ import TodoForm from "../TodoForm/TodoForm";
 import Todo from "../Todo/Todo";
 
 const TodoContainer = (props) => {
-  console.log(props);
   const [todos, setTodos] = useState([]);
 
   const addTodo = (todo) => {
@@ -59,7 +58,6 @@ const TodoContainer = (props) => {
     );
   };
 
-  console.log(todos);
   return (
     <div>
       <DateTime />

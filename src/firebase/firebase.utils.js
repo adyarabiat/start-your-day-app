@@ -24,5 +24,42 @@ provider.setCustomParameters({
 });
 
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
+// ..........................................................
+
+// Store the user in our database:
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) {
+    return;
+  }
+
+  // create the document by setting the user UID
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+  // it will give me the exist property and it will be true or false
+
+  const snapShot = await userRef.get();
+
+  // if it was false we will create it
+  if (!snapShot.exists) {
+    // get the name and the email
+    const { displayName, email } = userAuth;
+    // when it was created
+    const createdAt = new Date();
+
+    try {
+      // .set it will store the data
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("Error creating user", error.message);
+    }
+  }
+
+  return userRef;
+};
 
 export default firebase;

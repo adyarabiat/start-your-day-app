@@ -1,7 +1,7 @@
 import React from "react";
 
 import { signInWithGoogle } from "../../firebase/firebase.utils";
-
+import { Link as RouterLink } from "react-router-dom";
 // Material UI
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -110,7 +110,7 @@ const SignIn = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link variant="body2" component={RouterLink} to={"/sign-up"}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
