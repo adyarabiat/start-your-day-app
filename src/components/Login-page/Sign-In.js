@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { signInWithGoogle } from "../../firebase/firebase.utils";
+import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 import { Link as RouterLink } from "react-router-dom";
 // Material UI
 import Avatar from "@material-ui/core/Avatar";
@@ -52,6 +52,31 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = () => {
   const classes = useStyles();
 
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { email, password } = state;
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      setState({ email: "", password: "" });
+    } catch (error) {
+      console.log("Something Went Wrong", error);
+      alert("Wrong Email or Password");
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setState({ ...state, [name]: value });
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -62,12 +87,10 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={(e) => e.preventDefault()}
-        >
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
+            value={state.email}
+            onChange={handleChange}
             variant="outlined"
             margin="normal"
             required
@@ -79,6 +102,8 @@ const SignIn = () => {
             autoFocus
           />
           <TextField
+            value={state.password}
+            onChange={handleChange}
             variant="outlined"
             margin="normal"
             required
@@ -99,10 +124,19 @@ const SignIn = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
+          >
+            Sign in
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
             onClick={signInWithGoogle}
           >
             Sign in with Google
           </Button>
+
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
