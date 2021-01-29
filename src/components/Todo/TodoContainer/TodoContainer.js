@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { DateTime } from "../Time/Time";
 import TodoForm from "../TodoForm/TodoForm";
 import Todo from "../Todo/Todo";
 
+const LOCAL_STORAGE_KEY = "react-todo-list-todos";
+
 const TodoContainer = (props) => {
   const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    const storageTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (storageTodos) {
+      setTodos(storageTodos);
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+  }, [todos]);
 
   const addTodo = (todo) => {
     setTodos([todo, ...todos]);

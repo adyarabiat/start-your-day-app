@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
+import { Link as RouterLink } from "react-router-dom";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -170,7 +171,7 @@ const SignUp = () => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" component={RouterLink} to={"/"}>
                 Already have an account? Sign in
               </Link>
             </Grid>
